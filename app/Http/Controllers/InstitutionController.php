@@ -14,7 +14,11 @@ class InstitutionController extends Controller
     ){
     }
 
-    //
+    /**
+     * @param InstitutionAvailabilityRequest $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function searchOrSave(InstitutionAvailabilityRequest $request)
     {
         return $this->institutionRepository->searchOrSave($request);

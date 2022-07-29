@@ -43,36 +43,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function meta()
-    {
-        return $this->hasOne(UserMeta::class);
-    }
-
-    public function profile()
-    {
-        return $this->hasOne(Profile::class);
-    }
-
-    public function kyc()
-    {
-        return $this->hasOne(Kyc::class);
-    }
-
-    public function providers()
-    {
-        return $this->hasMany(Provider::class,'user_id','id');
-    }
-
-    /**
-     * Send a password reset notification to the user.
-     *
-     * @param  string  $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        $url = env('APP_URL').'/reset-password?email='.$this->email.'&token='.$token;
-
-        $this->notify(new ResetPassword($url));
-    }
 }
