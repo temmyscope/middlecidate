@@ -21,9 +21,10 @@ class InstitutionRepository implements InstitutionRepositoryInterface
 
         $response = Http::accept('application/ld+json')
         ->withToken( $token )->get( 
-            getInstitutionAPI(), [ 'fullSearch' => $request->institution ] 
+            getInstitutionAPI(), 
+            [ 'fullSearch' => $request->institution ] 
         );
-        var_dump($response->json());die;
+        
         if ( $response->successful() ) {
 
             $resp = $response->json();
@@ -45,6 +46,7 @@ class InstitutionRepository implements InstitutionRepositoryInterface
             }
             return $this->respondWithSuccess([ 'results' => count($resp['data']) ], HttpStatus::from(200)->message());
         }
+        
         return $this->respondWithError([], "An Error Occurred", 400);
     }
 

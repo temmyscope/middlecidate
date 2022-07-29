@@ -48,6 +48,11 @@ sample response
 
 }
 ```
+### Issue Encountered
+
+- I was unable to access the API even after using a fresh authentication token, I could not figure out why.
+
+- I pretty wrote the code blind, due to the above reason. (I'm quite sure all should work regardless).
 
 
 ### Worthy of Note
