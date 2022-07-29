@@ -3,9 +3,7 @@
 - I have chosen PHP's Laravel Framework to implement this task.
 
 
-
-
-### Deisgn Pattern
+### Design Pattern
 
 - Design Pattern: Repository Design Pattern
 

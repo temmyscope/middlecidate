@@ -20,11 +20,10 @@ class InstitutionRepository implements InstitutionRepositoryInterface
         $token = getInstitutionToken();
 
         $response = Http::accept('application/ld+json')
-        ->withHeaders(['Authorization' => 'Bearer '. $token ])
-        ->get( 
+        ->withToken( $token )->get( 
             getInstitutionAPI(), [ 'fullSearch' => $request->institution ] 
         );
-
+        var_dump($response->json());die;
         if ( $response->successful() ) {
 
             $resp = $response->json();
