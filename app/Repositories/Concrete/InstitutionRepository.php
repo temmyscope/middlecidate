@@ -2,14 +2,12 @@
 
 namespace App\Repositories\Concrete;
 
+use Carbon\Carbon;
 use App\Enums\HttpStatus;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Traits\RequestResponseTrait;
 use App\Http\Requests\InstitutionAvailabilityRequest;
 use App\Repositories\Abstraction\InstitutionRepositoryInterface;
-use Carbon\Carbon;
 
 class InstitutionRepository implements InstitutionRepositoryInterface
 {
@@ -36,9 +34,9 @@ class InstitutionRepository implements InstitutionRepositoryInterface
                 Http::accept('application/ld+json')
                 ->withToken( $token )->post(
                     getInstitutionTicketAPI(), [ 
-                    "project"=>"projects/2a9caad1-19c7-4340-949f-30b81a8a043e",  
-                    "title"=>"missing Institution {$request->institution}",  
-                    "description"=> "add Institution {$request->institution}",  
+                    "project" => "projects/2a9caad1-19c7-4340-949f-30b81a8a043e",  
+                    "title" => "missing Institution {$request->institution}",  
+                    "description" => "add Institution {$request->institution}",  
                     "createdAt" => $time,  
                     "updatedAt" => $time
                 ]);
@@ -46,7 +44,7 @@ class InstitutionRepository implements InstitutionRepositoryInterface
             }
             return $this->respondWithSuccess([ 'results' => count($resp['data']) ], HttpStatus::from(200)->message());
         }
-        
+
         return $this->respondWithError([], "An Error Occurred", 400);
     }
 

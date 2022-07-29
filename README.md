@@ -42,12 +42,22 @@ Sample Request To the Middleware API
 
 - /api/institutions?institution=XXX
 
-sample response
+sample response (if query request fails)
 ```json
 {
-
+  "data": [],
+  "message": "An Error Occurred",
+  "code": 400,
+  "status": false
 }
 ```
+
+
+### Time Spent on implementation
+
+- 2hrs30mins to 3hrs
+
+
 ### Issue Encountered
 
 - I was unable to access the API even after using a fresh authentication token, I could not figure out why.
@@ -60,6 +70,4 @@ sample response
 - Naturally, I'd prefer to use either Python's FastAPI or Laravel's Octane Frameworks (as they are more optimized for performance) but seeing it's a straightforward task that won't require extra performance gain, I went with the easiest to setup choice
 
 
-- A Postman Collection (of requests) would be a proper way to document the API
-
-- 
+- A Postman Collection (of requests) would be a proper way to document the API.
