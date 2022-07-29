@@ -3,13 +3,11 @@
 namespace Tests\Feature\Authentication;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 class InstitutionTest extends TestCase
 {
     /**
-     * This would test for an incorrect email
      *
      * @return void
      */
@@ -18,13 +16,13 @@ class InstitutionTest extends TestCase
         $response = $this->getJson('/api/institutions?institution=Access');
 
         //this request will return a false status due to 401 from the backend
+        //unless the token validates on the backend
         $response->assertJson(fn (AssertableJson $json) =>
             $json->where('status', true)->etc()
         );
     }
 
     /**
-     * This would test for a correct email
      *
      * @return void
      */
