@@ -26,6 +26,7 @@ class InstitutionRepository implements InstitutionRepositoryInterface
         );
 
         if ( $response->successful() ) {
+            
             if ( count($response?->data) < 1 ) {
 
                 $time = Carbon::now()->format('Y-m-d H:i:s');
@@ -40,8 +41,8 @@ class InstitutionRepository implements InstitutionRepositoryInterface
                     "updatedAt" => $time
                 ]);
                 return $this->respondWithSuccess([], HttpStatus::from(404)->message());
-
             }
+
             return $this->respondWithSuccess([ 'results' => count($response?->data) ], HttpStatus::from(200)->message());
         }
 
