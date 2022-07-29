@@ -22,7 +22,7 @@ enum HttpStatus: int {
     case SERVER_NOT_READY = 503;
 
     public function status(): bool { 
-        return ($this->value > 299);
+        return ($this->value < 299);
     }
 
     public function message(): string { 
