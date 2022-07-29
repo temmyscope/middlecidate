@@ -12,7 +12,7 @@
 
 #### Deploy
 
-Deployment this project requires the following steps:
+Deploying this project requires the following steps:
 
 - clone repository
 ```sh
@@ -29,6 +29,15 @@ composer install
 php artisan serve
 ``` 
 
+****Note: The necessary environment keys are provided in the .env.example file. Valid values should be provided***
+- where Sample Values are: 
+```env
+INSTITUTION_API=https://api.../institutions
+INSTITUTION_API_TOKEN=eyJhbGciOiJSUzI1N...
+INSTITUTION_TICKET_API=https://api.../tickets
+```
+
+
 ### Endpoint
 
 Sample Request To the Middleware API
@@ -37,7 +46,9 @@ Sample Request To the Middleware API
 
 sample response
 ```json
+{
 
+}
 ```
 
 
