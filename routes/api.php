@@ -15,9 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['prefix' => 'api'])->get('/institution', [InstitutionController::class, 'searchOrSave']);
+Route::middleware('api')->group(function(){
 
+    Route::get('/institutions', [InstitutionController::class, 'searchOrSave']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::fallback(fn() => response()->json(
+        ['code' => 404, 'message' => 'Route Not Found' ], 404
+    ));
 });
+
+
+

@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Concrete;
 
-
+use App\Enums\HttpStatus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -20,26 +20,34 @@ class InstitutionRepository implements InstitutionRepositoryInterface
         $token = getInstitutionToken();
 
         $response = Http::accept('application/ld+json')
-        ->withToken( $token )
-        ->get( getInstitutionAPI(), [ 'fullSearch' => $request->institution ] );
+        ->withHeaders(['Authorization' => 'Bearer '. $token ])
+        ->get( 
+            getInstitutionAPI(), [ 'fullSearch' => $request->institution ] 
+        );
 
         $responseCollection = collect($response);
 
-        dump($responseCollection);
+        dump( $response );
 
-        if ( $responseCollection->isEmpty() ) {
-            $time = Carbon::now()->format('Y-m-d H:i:s');
-            Http::accept('application/ld+json')
-            ->withToken( $token )
-            ->post( getInstitutionTicketAPI(), [ 
-                "project"=>"projects/2a9caad1-19c7-4340-949f-30b81a8a043e",  
-                "title"=>"missing Institution {$request->institution}",  
-                "description"=> "add Institution {$request->institution}",  
-                "createdAt" => $time,  
-                "updatedAt" => $time
-            ]);
+        if ( $response->successful() ) {
+            if ( $responseCollection->isEmpty() ) {
+                $time = Carbon::now()->format('Y-m-d H:i:s');
+                Http::accept('application/ld+json')
+                ->withToken( $token )
+                ->post( getInstitutionTicketAPI(), [ 
+                    "project"=>"projects/2a9caad1-19c7-4340-949f-30b81a8a043e",  
+                    "title"=>"missing Institution {$request->institution}",  
+                    "description"=> "add Institution {$request->institution}",  
+                    "createdAt" => $time,  
+                    "updatedAt" => $time
+                ]);
+                return $this->respondWithSuccess([], HttpStatus::from(404)->message());
+            }
+            return $this->respondWithSuccess([
+                'results' => count($response?->data)
+            ], HttpStatus::from(200)->message());
         }
-        return $this->respondWithSuccess($institutions);
+        $response->onError(fn() => $this->respondWithError([], "An Error Occurred") );
     }
 
 }
