@@ -31,10 +31,12 @@ class InstitutionRepository implements InstitutionRepositoryInterface
 
         if ( $response->successful() ) {
             if ( $responseCollection->isEmpty() ) {
+
                 $time = Carbon::now()->format('Y-m-d H:i:s');
+
                 Http::accept('application/ld+json')
-                ->withToken( $token )
-                ->post( getInstitutionTicketAPI(), [ 
+                ->withToken( $token )->post(
+                    getInstitutionTicketAPI(), [ 
                     "project"=>"projects/2a9caad1-19c7-4340-949f-30b81a8a043e",  
                     "title"=>"missing Institution {$request->institution}",  
                     "description"=> "add Institution {$request->institution}",  
@@ -42,10 +44,9 @@ class InstitutionRepository implements InstitutionRepositoryInterface
                     "updatedAt" => $time
                 ]);
                 return $this->respondWithSuccess([], HttpStatus::from(404)->message());
+
             }
-            return $this->respondWithSuccess([
-                'results' => count($response?->data)
-            ], HttpStatus::from(200)->message());
+            return $this->respondWithSuccess([ 'results' => count($response?->data) ], HttpStatus::from(200)->message());
         }
         $response->onError(fn() => $this->respondWithError([], "An Error Occurred") );
     }
