@@ -15,11 +15,11 @@ class InstitutionTest extends TestCase
      */
     public function test_existing_institute()
     {
-        $response = $this->postJson('/api/institution');
+        $response = $this->getJson('/api/institutions?institution=Access');
 
-        //This user should usually not exist
+        //this request will return a false status due to 401 from the backend
         $response->assertJson(fn (AssertableJson $json) =>
-            $json->where('email', ['User does not exist.'])->etc()
+            $json->where('status', true)->etc()
         );
     }
 
@@ -30,9 +30,12 @@ class InstitutionTest extends TestCase
      */
     public function test_non_existing_institute()
     {
-        $response = $this->getJson('/api/institution');
+        $response = $this->getJson('/api/institutions?institution=XXX');
 
-        //the response should contain one of this status messages
-        $this->assertTrue(true);
+        //this request will return a false status due to 401 from the backend
+        $response->assertJson(fn (AssertableJson $json) =>
+            $json->where('status', true)
+            ->where('message', fn($str) => str_contains('Not found', $str))->etc()
+        );
     }
 }
