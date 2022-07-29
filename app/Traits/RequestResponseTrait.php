@@ -17,7 +17,7 @@ trait RequestResponseTrait
      * @param int $code
      * @return JsonResponse
      */
-    public function jsonResponse(array $data, int $code = 200): JsonResponse
+    public function jsonResponse(array $data, int $code): JsonResponse
     {
         return response()->json([ 
             ...$data, 'code' => $code,

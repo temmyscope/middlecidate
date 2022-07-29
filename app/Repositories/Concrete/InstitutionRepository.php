@@ -16,7 +16,7 @@ class InstitutionRepository implements InstitutionRepositoryInterface
     use RequestResponseTrait;
 
     public function searchOrSave(InstitutionAvailabilityRequest $request){
-        $institutions = [];
+        
         $token = getInstitutionToken();
 
         $response = Http::accept('application/ld+json')
@@ -27,7 +27,9 @@ class InstitutionRepository implements InstitutionRepositoryInterface
 
         if ( $response->successful() ) {
 
-            if ( count($response?->data) < 1 ) {
+            $resp = $response->json();
+
+            if ( isset($resp['data']) && count($resp['data']) < 1 ) {
 
                 $time = Carbon::now()->format('Y-m-d H:i:s');
 
@@ -42,11 +44,9 @@ class InstitutionRepository implements InstitutionRepositoryInterface
                 ]);
                 return $this->respondWithSuccess([], HttpStatus::from(404)->message());
             }
-
-            return $this->respondWithSuccess([ 'results' => count($response?->data) ], HttpStatus::from(200)->message());
+            return $this->respondWithSuccess([ 'results' => count($resp['data']) ], HttpStatus::from(200)->message());
         }
-
-        $this->respondWithError([], "An Error Occurred", 400);
+        return $this->respondWithError([], "An Error Occurred", 400);
     }
 
 }
